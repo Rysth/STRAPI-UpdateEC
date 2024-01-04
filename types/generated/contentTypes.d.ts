@@ -660,6 +660,11 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
       'manyToOne',
       'plugin::users-permissions.role'
     >;
+    reviews: Attribute.Relation<
+      'plugin::users-permissions.user',
+      'oneToMany',
+      'api::review.review'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
@@ -785,6 +790,11 @@ export interface ApiProductProduct extends Schema.CollectionType {
     description: Attribute.RichText;
     active: Attribute.Boolean & Attribute.Required & Attribute.DefaultTo<true>;
     quantity: Attribute.Integer & Attribute.Required;
+    reviews: Attribute.Relation<
+      'api::product.product',
+      'oneToMany',
+      'api::review.review'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -796,6 +806,54 @@ export interface ApiProductProduct extends Schema.CollectionType {
       Attribute.Private;
     updatedBy: Attribute.Relation<
       'api::product.product',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiReviewReview extends Schema.CollectionType {
+  collectionName: 'reviews';
+  info: {
+    singularName: 'review';
+    pluralName: 'reviews';
+    displayName: 'Review';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    comment: Attribute.Text & Attribute.Required;
+    rating: Attribute.Integer &
+      Attribute.Required &
+      Attribute.SetMinMax<{
+        min: 1;
+        max: 5;
+      }>;
+    user: Attribute.Relation<
+      'api::review.review',
+      'manyToOne',
+      'plugin::users-permissions.user'
+    >;
+    product: Attribute.Relation<
+      'api::review.review',
+      'manyToOne',
+      'api::product.product'
+    >;
+    date: Attribute.Date;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::review.review',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::review.review',
       'oneToOne',
       'admin::user'
     > &
@@ -822,6 +880,7 @@ declare module '@strapi/types' {
       'api::brand.brand': ApiBrandBrand;
       'api::category.category': ApiCategoryCategory;
       'api::product.product': ApiProductProduct;
+      'api::review.review': ApiReviewReview;
     }
   }
 }
