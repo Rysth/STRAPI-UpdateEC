@@ -51,10 +51,6 @@
       "unique": true,
       "min": 0
     },
-    "description": {
-      "type": "richtext",
-      "required": false
-    },
     "active": {
       "type": "boolean",
       "default": true,
@@ -69,6 +65,10 @@
       "relation": "oneToMany",
       "target": "api::review.review",
       "mappedBy": "product"
+    },
+    "description": {
+      "type": "richtext",
+      "maxLength": 500
     }
   }
 }

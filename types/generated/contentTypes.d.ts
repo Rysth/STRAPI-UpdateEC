@@ -877,7 +877,6 @@ export interface ApiProductProduct extends Schema.CollectionType {
       Attribute.SetMinMax<{
         min: 0;
       }>;
-    description: Attribute.RichText;
     active: Attribute.Boolean & Attribute.Required & Attribute.DefaultTo<true>;
     quantity: Attribute.Integer & Attribute.Required;
     reviews: Attribute.Relation<
@@ -885,6 +884,10 @@ export interface ApiProductProduct extends Schema.CollectionType {
       'oneToMany',
       'api::review.review'
     >;
+    description: Attribute.RichText &
+      Attribute.SetMinMaxLength<{
+        maxLength: 500;
+      }>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
