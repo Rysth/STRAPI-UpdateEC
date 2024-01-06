@@ -665,6 +665,11 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
       'oneToMany',
       'api::review.review'
     >;
+    orders: Attribute.Relation<
+      'plugin::users-permissions.user',
+      'oneToMany',
+      'api::order.order'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
@@ -762,18 +767,13 @@ export interface ApiOrderOrder extends Schema.CollectionType {
     singularName: 'order';
     pluralName: 'orders';
     displayName: 'Order';
+    description: '';
   };
   options: {
     draftAndPublish: true;
   };
   attributes: {
     date: Attribute.Date;
-    total_price: Attribute.Float &
-      Attribute.SetMinMax<{
-        min: 0;
-        max: 0;
-      }> &
-      Attribute.DefaultTo<0>;
     products: Attribute.Relation<
       'api::order.order',
       'oneToMany',
@@ -781,7 +781,7 @@ export interface ApiOrderOrder extends Schema.CollectionType {
     >;
     user: Attribute.Relation<
       'api::order.order',
-      'oneToOne',
+      'manyToOne',
       'plugin::users-permissions.user'
     >;
     payment_detail: Attribute.Relation<

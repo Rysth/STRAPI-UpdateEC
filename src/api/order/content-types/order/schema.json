@@ -4,7 +4,8 @@
   "info": {
     "singularName": "order",
     "pluralName": "orders",
-    "displayName": "Order"
+    "displayName": "Order",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -14,13 +15,6 @@
     "date": {
       "type": "date"
     },
-    "total_price": {
-      "required": false,
-      "min": 0,
-      "max": 0,
-      "default": 0,
-      "type": "float"
-    },
     "products": {
       "type": "relation",
       "relation": "oneToMany",
@@ -28,8 +22,9 @@
     },
     "user": {
       "type": "relation",
-      "relation": "oneToOne",
-      "target": "plugin::users-permissions.user"
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "orders"
     },
     "payment_detail": {
       "type": "relation",
