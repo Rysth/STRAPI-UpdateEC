@@ -15,11 +15,6 @@
     "date": {
       "type": "date"
     },
-    "products": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::product.product"
-    },
     "user": {
       "type": "relation",
       "relation": "manyToOne",
@@ -30,6 +25,12 @@
       "type": "relation",
       "relation": "oneToOne",
       "target": "api::payment-detail.payment-detail",
+      "mappedBy": "order"
+    },
+    "order_product_details": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::order-product-detail.order-product-detail",
       "mappedBy": "order"
     }
   }

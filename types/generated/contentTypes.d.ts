@@ -774,11 +774,6 @@ export interface ApiOrderOrder extends Schema.CollectionType {
   };
   attributes: {
     date: Attribute.Date;
-    products: Attribute.Relation<
-      'api::order.order',
-      'oneToMany',
-      'api::product.product'
-    >;
     user: Attribute.Relation<
       'api::order.order',
       'manyToOne',
@@ -788,6 +783,11 @@ export interface ApiOrderOrder extends Schema.CollectionType {
       'api::order.order',
       'oneToOne',
       'api::payment-detail.payment-detail'
+    >;
+    order_product_details: Attribute.Relation<
+      'api::order.order',
+      'oneToMany',
+      'api::order-product-detail.order-product-detail'
     >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
@@ -800,6 +800,49 @@ export interface ApiOrderOrder extends Schema.CollectionType {
       Attribute.Private;
     updatedBy: Attribute.Relation<
       'api::order.order',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiOrderProductDetailOrderProductDetail
+  extends Schema.CollectionType {
+  collectionName: 'order_product_details';
+  info: {
+    singularName: 'order-product-detail';
+    pluralName: 'order-product-details';
+    displayName: 'Order Product Detail';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    product: Attribute.Relation<
+      'api::order-product-detail.order-product-detail',
+      'manyToOne',
+      'api::product.product'
+    >;
+    quantity: Attribute.Integer & Attribute.Required;
+    order: Attribute.Relation<
+      'api::order-product-detail.order-product-detail',
+      'manyToOne',
+      'api::order.order'
+    >;
+    subtotal: Attribute.Float & Attribute.Required;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::order-product-detail.order-product-detail',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::order-product-detail.order-product-detail',
       'oneToOne',
       'admin::user'
     > &
@@ -888,6 +931,11 @@ export interface ApiProductProduct extends Schema.CollectionType {
       Attribute.SetMinMaxLength<{
         maxLength: 500;
       }>;
+    order_product_details: Attribute.Relation<
+      'api::product.product',
+      'oneToMany',
+      'api::order-product-detail.order-product-detail'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -973,6 +1021,7 @@ declare module '@strapi/types' {
       'api::brand.brand': ApiBrandBrand;
       'api::category.category': ApiCategoryCategory;
       'api::order.order': ApiOrderOrder;
+      'api::order-product-detail.order-product-detail': ApiOrderProductDetailOrderProductDetail;
       'api::payment-detail.payment-detail': ApiPaymentDetailPaymentDetail;
       'api::product.product': ApiProductProduct;
       'api::review.review': ApiReviewReview;

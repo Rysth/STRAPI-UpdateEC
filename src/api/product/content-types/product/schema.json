@@ -69,6 +69,12 @@
     "description": {
       "type": "richtext",
       "maxLength": 500
+    },
+    "order_product_details": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::order-product-detail.order-product-detail",
+      "mappedBy": "product"
     }
   }
 }
