@@ -789,6 +789,11 @@ export interface ApiOrderOrder extends Schema.CollectionType {
       'oneToMany',
       'api::order-product-detail.order-product-detail'
     >;
+    order_status: Attribute.Relation<
+      'api::order.order',
+      'oneToOne',
+      'api::order-status.order-status'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -843,6 +848,37 @@ export interface ApiOrderProductDetailOrderProductDetail
       Attribute.Private;
     updatedBy: Attribute.Relation<
       'api::order-product-detail.order-product-detail',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiOrderStatusOrderStatus extends Schema.CollectionType {
+  collectionName: 'order_statuses';
+  info: {
+    singularName: 'order-status';
+    pluralName: 'order-statuses';
+    displayName: 'Order Status';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    name: Attribute.String & Attribute.Unique;
+    active: Attribute.Boolean & Attribute.DefaultTo<true>;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::order-status.order-status',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::order-status.order-status',
       'oneToOne',
       'admin::user'
     > &
@@ -1022,6 +1058,7 @@ declare module '@strapi/types' {
       'api::category.category': ApiCategoryCategory;
       'api::order.order': ApiOrderOrder;
       'api::order-product-detail.order-product-detail': ApiOrderProductDetailOrderProductDetail;
+      'api::order-status.order-status': ApiOrderStatusOrderStatus;
       'api::payment-detail.payment-detail': ApiPaymentDetailPaymentDetail;
       'api::product.product': ApiProductProduct;
       'api::review.review': ApiReviewReview;
