@@ -60,12 +60,6 @@
       "type": "integer",
       "required": true
     },
-    "reviews": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::review.review",
-      "mappedBy": "product"
-    },
     "description": {
       "type": "richtext",
       "maxLength": 500

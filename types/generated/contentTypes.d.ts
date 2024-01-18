@@ -660,11 +660,6 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
       'manyToOne',
       'plugin::users-permissions.role'
     >;
-    reviews: Attribute.Relation<
-      'plugin::users-permissions.user',
-      'oneToMany',
-      'api::review.review'
-    >;
     orders: Attribute.Relation<
       'plugin::users-permissions.user',
       'oneToMany',
@@ -958,11 +953,6 @@ export interface ApiProductProduct extends Schema.CollectionType {
       }>;
     active: Attribute.Boolean & Attribute.Required & Attribute.DefaultTo<true>;
     quantity: Attribute.Integer & Attribute.Required;
-    reviews: Attribute.Relation<
-      'api::product.product',
-      'oneToMany',
-      'api::review.review'
-    >;
     description: Attribute.RichText &
       Attribute.SetMinMaxLength<{
         maxLength: 500;
@@ -983,54 +973,6 @@ export interface ApiProductProduct extends Schema.CollectionType {
       Attribute.Private;
     updatedBy: Attribute.Relation<
       'api::product.product',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-  };
-}
-
-export interface ApiReviewReview extends Schema.CollectionType {
-  collectionName: 'reviews';
-  info: {
-    singularName: 'review';
-    pluralName: 'reviews';
-    displayName: 'Review';
-    description: '';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    comment: Attribute.Text & Attribute.Required;
-    rating: Attribute.Integer &
-      Attribute.Required &
-      Attribute.SetMinMax<{
-        min: 1;
-        max: 5;
-      }>;
-    user: Attribute.Relation<
-      'api::review.review',
-      'manyToOne',
-      'plugin::users-permissions.user'
-    >;
-    product: Attribute.Relation<
-      'api::review.review',
-      'manyToOne',
-      'api::product.product'
-    >;
-    date: Attribute.Date;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'api::review.review',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'api::review.review',
       'oneToOne',
       'admin::user'
     > &
@@ -1061,7 +1003,6 @@ declare module '@strapi/types' {
       'api::order-status.order-status': ApiOrderStatusOrderStatus;
       'api::payment-detail.payment-detail': ApiPaymentDetailPaymentDetail;
       'api::product.product': ApiProductProduct;
-      'api::review.review': ApiReviewReview;
     }
   }
 }
