@@ -69,6 +69,12 @@
       "relation": "oneToMany",
       "target": "api::order-product-detail.order-product-detail",
       "mappedBy": "product"
+    },
+    "reviews": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::review.review",
+      "mappedBy": "product"
     }
   }
 }
